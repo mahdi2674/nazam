@@ -59,12 +59,20 @@ main { padding: 16px; }
   cursor: pointer; transition: all 0.15s; flex-shrink: 0;
 }
 .check-btn.done { background: var(--success); border-color: var(--success); color: white; }
+
+/* استایل جدید کارت هدف */
 .goal-card { flex-direction: column; align-items: stretch; gap: 8px; }
 .goal-header { display: flex; justify-content: space-between; align-items: center; }
-.goal-title { font-weight: 600; }
+.goal-title { font-weight: 600; font-size: 16px; }
 .goal-values { font-size: 13px; color: var(--text2); }
-.progress-bar { background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; }
+.progress-bar { background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
 .progress-bar-fill { height: 100%; background: var(--primary-grad); border-radius: 4px; transition: width 0.4s; }
+.goal-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 6px; border-top: 1px solid var(--border); padding-top: 10px; }
+.quick-btn { width: 34px; height: 34px; border-radius: 10px; border: none; font-size: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; }
+.quick-plus { background: var(--primary); color: white; }
+.quick-minus { background: var(--input-bg); color: var(--text); }
+.quick-txt { font-size: 11px; color: var(--text2); margin-left: auto; }
+
 .empty { text-align: center; padding: 50px 20px; color: var(--text2); }
 .empty-icon { font-size: 52px; margin-bottom: 12px; opacity: 0.7; }
 .empty p { margin: 6px 0; }
@@ -113,7 +121,6 @@ main { padding: 16px; }
 .cal-day.done { background: var(--success); color: white; font-weight: bold; }
 .cal-day.today { border: 2px solid var(--primary); }
 
-/* استایل‌های نمودار */
 .view-toggles { display: flex; gap: 10px; margin-bottom: 16px; }
 .view-toggles button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-family: inherit; font-weight: bold; cursor: pointer; }
 .view-toggles button.active { background: var(--primary); color: white; border-color: var(--primary); }
@@ -213,7 +220,7 @@ function getStreak(habit) {
 function getJalaliMonthDays(jy, jm) {
   if (jm <= 6) return 31;
   if (jm <= 11) return 30;
-  return 29; // برای سادگی
+  return 29; 
 }
 
 function renderHeader() {
@@ -249,8 +256,17 @@ function renderGoals() {
     const pct = g.target > 0 ? Math.min(100, (g.current/g.target)*100) : 0;
     return `
       <div class="card goal-card" data-goal="${g.id}">
-        <div class="goal-header"><div class="goal-title">${escapeHtml(g.title)}</div><div class="goal-values">${g.current} / ${g.target} ${escapeHtml(g.unit||'')}</div></div>
+        <div class="goal-header">
+          <div class="goal-title">${escapeHtml(g.title)}</div>
+          <div class="goal-values">${g.current} / ${g.target} ${escapeHtml(g.unit||'')}</div>
+        </div>
         <div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+        
+        <div class="goal-actions">
+          <span class="quick-txt">ثبت سریع:</span>
+          <button class="quick-btn quick-minus" data-minus="${g.id}">−</button>
+          <button class="quick-btn quick-plus" data-plus="${g.id}">+</button>
+        </div>
       </div>`;
   }).join('');
 }
@@ -264,9 +280,8 @@ function renderStats() {
 
   if (state.statsView === 'weekly') {
     chartTitle = 'پیشرفت این هفته (شنبه تا جمعه)';
-    // پیدا کردن شنبه همین هفته
     let d = new Date();
-    let day = d.getDay(); // 0=Sun, 1=Mon, ... 6=Sat
+    let day = d.getDay(); 
     let diff = (day === 6) ? 0 : day + 1; 
     let startOfWeek = new Date(d);
     startOfWeek.setDate(d.getDate() - diff);
@@ -277,7 +292,7 @@ function renderStats() {
       const key = dateKey(current);
       const doneCount = state.habits.filter(h => (h.history||[]).includes(key)).length;
       const pct = total ? Math.round((doneCount/total)*100) : 0;
-      const h = Math.max(pct, 5); // حداقل 5 درصد ارتفاع برای دیده شدن
+      const h = Math.max(pct, 5); 
       
       barsHtml += `
         <div class="chart-bar-wrapper">
@@ -288,13 +303,11 @@ function renderStats() {
         </div>`;
     }
   } else {
-    // نمای ماهیانه
     chartTitle = 'پیشرفت ماه جاری (میانگین هفتگی)';
     const now = new Date();
     const [jy, jm] = toJalali(now.getFullYear(), now.getMonth()+1, now.getDate());
     const daysInMonth = getJalaliMonthDays(jy, jm);
     
-    // تقسیم ماه به هفته‌های 7 روزه
     let weeks = [];
     for(let start=1; start<=daysInMonth; start+=7) {
         let end = Math.min(start+6, daysInMonth);
@@ -347,8 +360,8 @@ function renderSettings() {
     <div class="setting-item" id="reset-btn" style="color:var(--danger)"><span>🗑 پاک کردن همه داده‌ها</span><span style="color:var(--text2)">›</span></div>
     <div class="section-title">درباره</div>
     <div class="card" style="display:block;font-size:14px;line-height:1.8;color:var(--text2)">
-      <strong style="color:var(--text)">نظم و پیشرفت (نسخه ۴)</strong><br>
-      دارای نمودار هفتگی و ماهیانه.<br>
+      <strong style="color:var(--text)">نظم و پیشرفت (نسخه ۵)</strong><br>
+      دارای ثبت سریع اهداف.<br>
       همه داده‌ها روی گوشی خودتان ذخیره می‌شوند.
     </div>
     <input type="file" id="import-file" accept="application/json" style="display:none">`;
@@ -380,12 +393,36 @@ function attachHandlers() {
   };
   document.querySelectorAll('[data-check]').forEach(b => b.onclick = (e) => { e.stopPropagation(); toggleHabit(b.dataset.check); });
   document.querySelectorAll('[data-habit]').forEach(c => c.onclick = () => openHabitCalendar(c.dataset.habit));
+  
+  // هندل کردن هدف‌ها
   document.querySelectorAll('[data-goal]').forEach(c => c.onclick = () => openGoalModal(c.dataset.goal));
   
+  // هندل کردن دکمه‌های سریع + و -
+  document.querySelectorAll('[data-plus]').forEach(b => {
+    b.onclick = (e) => { 
+      e.stopPropagation(); 
+      updateGoalProgress(b.dataset.plus, 1); 
+    };
+  });
+  document.querySelectorAll('[data-minus]').forEach(b => {
+    b.onclick = (e) => { 
+      e.stopPropagation(); 
+      updateGoalProgress(b.dataset.minus, -1); 
+    };
+  });
+
   const ex = document.getElementById('export-btn'); if (ex) ex.onclick = exportData;
   const im = document.getElementById('import-btn'); if (im) im.onclick = () => document.getElementById('import-file').click();
   const imf = document.getElementById('import-file'); if (imf) imf.onchange = importData;
   const rs = document.getElementById('reset-btn'); if (rs) rs.onclick = resetData;
+}
+
+function updateGoalProgress(id, amount) {
+    const g = state.goals.find(x => x.id === id);
+    if (!g) return;
+    g.current = Math.max(0, g.current + amount); // جلوگیری از منفی شدن
+    save(); 
+    render();
 }
 
 function toggleHabit(id) {
