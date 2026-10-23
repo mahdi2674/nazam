@@ -10,47 +10,26 @@
 <title>نظم و پیشرفت</title>
 <style>
 :root {
-  --bg: #F5F5F7;
-  --card: #FFFFFF;
-  --text: #1C1C1E;
-  --text2: #8E8E93;
-  --primary: #EF4444; /* قرمز */
-  --primary-grad: linear-gradient(135deg, #EF4444, #F43F5E);
-  --success: #10B981;
-  --danger: #EF4444;
-  --border: #E5E7EB;
-  --input-bg: #FAFAFB;
-  --tab-bg: rgba(255,255,255,0.96);
+  --bg: #F5F5F7; --card: #FFFFFF; --text: #1C1C1E; --text2: #8E8E93;
+  --primary: #EF4444; --primary-grad: linear-gradient(135deg, #EF4444, #F43F5E);
+  --success: #10B981; --danger: #EF4444; --border: #E5E7EB;
+  --input-bg: #FAFAFB; --tab-bg: rgba(255,255,255,0.96); --chart-bg: #F1F1F4;
 }
-
-/* حالت تاریک */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #000000;
-    --card: #1C1C1E;
-    --text: #FFFFFF;
-    --text2: #8E8E93;
-    --border: #38383A;
-    --input-bg: #2C2C2E;
-    --tab-bg: rgba(28,28,30,0.96);
+    --bg: #000000; --card: #1C1C1E; --text: #FFFFFF; --text2: #8E8E93;
+    --border: #38383A; --input-bg: #2C2C2E; --tab-bg: rgba(28,28,30,0.96); --chart-bg: #2C2C2E;
   }
 }
-
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  padding-bottom: 100px;
-  direction: rtl;
-  font-size: 15px;
-  transition: background 0.3s, color 0.3s;
+  background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 100px;
+  direction: rtl; font-size: 15px; transition: background 0.3s, color 0.3s;
 }
 .app-header {
-  background: var(--primary-grad);
-  color: white;
+  background: var(--primary-grad); color: white;
   padding: calc(env(safe-area-inset-top) + 12px) 20px 20px;
   border-radius: 0 0 24px 24px;
 }
@@ -61,17 +40,13 @@ body {
 .progress-circle svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 .circle-bg { fill: none; stroke: rgba(255,255,255,0.25); stroke-width: 3; }
 .circle-fill { fill: none; stroke: white; stroke-width: 3; stroke-linecap: round; transition: stroke-dasharray 0.4s; }
-.progress-circle span {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 13px;
-}
+.progress-circle span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; }
 main { padding: 16px; }
 .section-title { font-size: 13px; color: var(--text2); margin: 8px 4px 12px; font-weight: 600; }
 .card {
   background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 10px;
-  display: flex; align-items: center; gap: 12px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-  transition: background 0.3s;
+  display: flex; align-items: center; gap: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: background 0.3s; cursor: pointer;
 }
 .card:active { transform: scale(0.99); }
 .habit-emoji { font-size: 26px; }
@@ -94,73 +69,55 @@ main { padding: 16px; }
 .empty-icon { font-size: 52px; margin-bottom: 12px; opacity: 0.7; }
 .empty p { margin: 6px 0; }
 .tabbar {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--tab-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  display: flex; justify-content: space-around;
-  padding: 8px 0 calc(env(safe-area-inset-bottom) + 8px);
-  z-index: 100;
-  transition: background 0.3s;
+  position: fixed; bottom: 0; left: 0; right: 0; background: var(--tab-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 8px 0 calc(env(safe-area-inset-bottom) + 8px); z-index: 100; transition: background 0.3s;
 }
-.tab {
-  background: none; border: none; padding: 6px 16px; font-size: 11px;
-  color: var(--text2); cursor: pointer; font-family: inherit;
-  display: flex; flex-direction: column; align-items: center; gap: 2px;
-}
+.tab { background: none; border: none; padding: 6px 16px; font-size: 11px; color: var(--text2); cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .tab span { font-size: 20px; }
 .tab.active { color: var(--primary); }
 .fab {
-  position: fixed; bottom: calc(env(safe-area-inset-bottom) + 90px); left: 20px;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--primary); color: white; border: none;
-  font-size: 30px; box-shadow: 0 4px 16px rgba(239,68,68,0.4);
-  cursor: pointer; z-index: 99;
-  display: flex; align-items: center; justify-content: center;
-  font-family: inherit; line-height: 1;
+  position: fixed; bottom: calc(env(safe-area-inset-bottom) + 90px); left: 20px; width: 56px; height: 56px; border-radius: 50%;
+  background: var(--primary); color: white; border: none; font-size: 30px; box-shadow: 0 4px 16px rgba(239,68,68,0.4);
+  cursor: pointer; z-index: 99; display: flex; align-items: center; justify-content: center; font-family: inherit; line-height: 1;
 }
 .modal {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-  display: flex; align-items: flex-end; justify-content: center;
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: flex-end; justify-content: center;
   z-index: 200; animation: fadeIn 0.2s;
 }
 @keyframes fadeIn { from { opacity: 0; } }
 .modal-content {
-  background: var(--card); color: var(--text);
-  border-radius: 24px 24px 0 0;
-  padding: 24px 20px calc(env(safe-area-inset-bottom) + 20px);
-  width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto;
-  animation: slideUp 0.25s;
-  transition: background 0.3s;
+  background: var(--card); color: var(--text); border-radius: 24px 24px 0 0; padding: 24px 20px calc(env(safe-area-inset-bottom) + 20px);
+  width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; animation: slideUp 0.25s; transition: background 0.3s;
 }
 @keyframes slideUp { from { transform: translateY(100%); } }
 .modal-content h2 { margin: 0 0 16px; font-size: 18px; }
 .field { margin-bottom: 14px; }
 .field label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; font-weight: 600; }
-.field input {
-  width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px;
-  font-size: 15px; font-family: inherit; background: var(--input-bg); color: var(--text);
-}
+.field input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; font-size: 15px; font-family: inherit; background: var(--input-bg); color: var(--text); }
 .field input:focus { outline: 2px solid var(--primary); border-color: transparent; }
 .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
-.btn-primary, .btn-secondary, .btn-danger {
-  flex: 1; padding: 14px; border: none; border-radius: 12px;
-  font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer;
-}
+.btn-primary, .btn-secondary, .btn-danger { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
 .btn-primary { background: var(--primary); color: white; }
 .btn-secondary { background: var(--border); color: var(--text); }
 .btn-danger { background: rgba(239,68,68,0.1); color: var(--danger); }
-.setting-item {
-  background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 8px;
-  display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.3s;
-}
+.setting-item { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.3s; }
 .setting-item:active { background: var(--border); }
 .emoji-picker { display: flex; gap: 6px; flex-wrap: wrap; }
-.emoji-option {
-  font-size: 22px; padding: 8px; border-radius: 10px; background: var(--input-bg);
-  border: 2px solid transparent; cursor: pointer; user-select: none;
-}
+.emoji-option { font-size: 22px; padding: 8px; border-radius: 10px; background: var(--input-bg); border: 2px solid transparent; cursor: pointer; user-select: none; }
 .emoji-option.selected { border-color: var(--primary); background: rgba(239,68,68,0.1); }
+
+/* استایل‌های جدید تقویم و نمودار */
+.cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+.cal-day-name { font-size: 11px; color: var(--text2); margin-bottom: 8px; font-weight: bold; }
+.cal-day { padding: 8px 0; border-radius: 8px; font-size: 13px; background: var(--input-bg); color: var(--text2); }
+.cal-day.done { background: var(--success); color: white; font-weight: bold; }
+.cal-day.today { border: 2px solid var(--primary); }
+.chart-container { display: flex; justify-content: space-between; align-items: flex-end; height: 150px; padding-top: 20px; margin-top: 10px; }
+.chart-bar-wrapper { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 6px; }
+.chart-bar { width: 20px; background: var(--chart-bg); border-radius: 6px 6px 0 0; position: relative; display: flex; align-items: flex-end; justify-content: center; transition: height 0.5s; overflow: hidden; }
+.chart-bar-fill { width: 100%; background: var(--primary); border-radius: 6px 6px 0 0; transition: height 0.5s; }
+.chart-label { font-size: 10px; color: var(--text2); }
 </style>
 </head>
 <body>
@@ -186,16 +143,17 @@ main { padding: 16px; }
 <nav class="tabbar">
   <button data-tab="today" class="tab"><span>🌱</span>امروز</button>
   <button data-tab="goals" class="tab"><span>🎯</span>اهداف</button>
+  <button data-tab="stats" class="tab"><span>📊</span>آمار</button>
   <button data-tab="settings" class="tab"><span>⚙️</span>تنظیمات</button>
 </nav>
 
 <button class="fab" id="fab">+</button>
 
 <div class="modal" id="modal" style="display:none">
-  <div class="modal-content">
+  <div class="modal-content" id="modal-content-box">
     <h2 id="modal-title">عنوان</h2>
     <div id="modal-body"></div>
-    <div class="modal-actions">
+    <div class="modal-actions" id="modal-actions">
       <button class="btn-secondary" id="modal-cancel">لغو</button>
       <button class="btn-primary" id="modal-save">ذخیره</button>
     </div>
@@ -216,61 +174,49 @@ function load() {
     }
   } catch(e) { console.error('load error', e); }
 }
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ habits: state.habits, goals: state.goals }));
-}
+function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ habits: state.habits, goals: state.goals })); }
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
-function escapeHtml(s) {
-  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
+function escapeHtml(s) { return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 const J_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 const WEEKDAYS = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
+const WEEKDAYS_SHORT = ['ی','د','س','چ','پ','ج','ش'];
 
 function toJalali(gy, gm, gd) {
   const g_d_m = [0,31,59,90,120,151,181,212,243,273,304,334];
-  let jy = (gy <= 1600) ? 0 : 979;
-  gy -= (gy <= 1600) ? 621 : 1600;
+  let jy = (gy <= 1600) ? 0 : 979; gy -= (gy <= 1600) ? 621 : 1600;
   const gy2 = (gm > 2) ? (gy + 1) : gy;
   let days = (365*gy) + Math.floor((gy2+3)/4) - Math.floor((gy2+99)/100) + Math.floor((gy2+399)/400) - 80 + gd + g_d_m[gm-1];
-  jy += 33 * Math.floor(days/12053);
-  days %= 12053;
-  jy += 4 * Math.floor(days/1461);
-  days %= 1461;
+  jy += 33 * Math.floor(days/12053); days %= 12053;
+  jy += 4 * Math.floor(days/1461); days %= 1461;
   if (days > 365) { jy += Math.floor((days-1)/365); days = (days-1)%365; }
   const jm = (days < 186) ? 1 + Math.floor(days/31) : 7 + Math.floor((days-186)/30);
   const jd = 1 + ((days < 186) ? (days%31) : ((days-186)%30));
   return [jy, jm, jd];
 }
-function dateKey(d) {
-  const [jy, jm, jd] = toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
-  return `${jy}-${String(jm).padStart(2,'0')}-${String(jd).padStart(2,'0')}`;
-}
+function dateKey(d) { const [jy, jm, jd] = toJalali(d.getFullYear(), d.getMonth()+1, d.getDate()); return `${jy}-${String(jm).padStart(2,'0')}-${String(jd).padStart(2,'0')}`; }
 function todayKey() { return dateKey(new Date()); }
-function todayLabel() {
-  const now = new Date();
-  const [jy, jm, jd] = toJalali(now.getFullYear(), now.getMonth()+1, now.getDate());
-  return `${WEEKDAYS[now.getDay()]}، ${jd} ${J_MONTHS[jm-1]} ${jy}`;
-}
+function todayLabel() { const now = new Date(); const [jy, jm, jd] = toJalali(now.getFullYear(), now.getMonth()+1, now.getDate()); return `${WEEKDAYS[now.getDay()]}، ${jd} ${J_MONTHS[jm-1]} ${jy}`; }
 function getStreak(habit) {
-  const history = habit.history || [];
-  const today = new Date();
-  const tk = dateKey(today);
-  let i = history.includes(tk) ? 0 : 1;
-  let streak = 0;
+  const history = habit.history || []; const today = new Date(); const tk = dateKey(today);
+  let i = history.includes(tk) ? 0 : 1; let streak = 0;
   for (; i < 366; i++) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    if (history.includes(dateKey(d))) streak++;
-    else break;
+    const d = new Date(today); d.setDate(d.getDate() - i);
+    if (history.includes(dateKey(d))) streak++; else break;
   }
   return streak;
+}
+// تبدیل گرگوری به شمسی برای شروع ماه (برای تقویم)
+function getJalaliMonthDays(jy, jm) {
+  if (jm <= 6) return 31;
+  if (jm <= 11) return 30;
+  // سال کبیسه
+  return 29;
 }
 
 function renderHeader() {
   document.getElementById('date-label').textContent = todayLabel();
-  const total = state.habits.length;
-  const tk = todayKey();
+  const total = state.habits.length; const tk = todayKey();
   const done = state.habits.filter(h => (h.history||[]).includes(tk)).length;
   const pct = total ? (done/total)*100 : 0;
   document.getElementById('circle-fill').setAttribute('stroke-dasharray', `${pct}, 100`);
@@ -278,13 +224,10 @@ function renderHeader() {
 }
 
 function renderToday() {
-  if (state.habits.length === 0) {
-    return `<div class="empty"><div class="empty-icon">🌱</div><p>هنوز عادتی اضافه نکرده‌اید.</p><p>با دکمه + شروع کنید.</p></div>`;
-  }
+  if (state.habits.length === 0) return `<div class="empty"><div class="empty-icon">🌱</div><p>هنوز عادتی اضافه نکرده‌اید.</p><p>با دکمه + شروع کنید.</p></div>`;
   const tk = todayKey();
   const items = state.habits.map(h => {
-    const done = (h.history||[]).includes(tk);
-    const streak = getStreak(h);
+    const done = (h.history||[]).includes(tk); const streak = getStreak(h);
     return `
       <div class="card" data-habit="${h.id}">
         <div class="habit-emoji">${h.emoji || '✅'}</div>
@@ -293,28 +236,56 @@ function renderToday() {
           <div class="habit-streak">${streak > 0 ? `🔥 ${streak} روز پیاپی` : 'امروز شروع کن'}</div>
         </div>
         <button class="check-btn ${done ? 'done' : ''}" data-check="${h.id}">${done ? '✓' : ''}</button>
-      </div>
-    `;
+      </div>`;
   }).join('');
-  return `<div class="section-title">عادت‌های امروز (${state.habits.length})</div>${items}`;
+  return `<div class="section-title">عادت‌های امروز (برای دیدن تقویم روی هر عادت کلیک کنید)</div>${items}`;
 }
 
 function renderGoals() {
-  if (state.goals.length === 0) {
-    return `<div class="empty"><div class="empty-icon">🎯</div><p>هنوز هدفی تعریف نکرده‌اید.</p><p>با دکمه + شروع کنید.</p></div>`;
-  }
+  if (state.goals.length === 0) return `<div class="empty"><div class="empty-icon">🎯</div><p>هنوز هدفی تعریف نکرده‌اید.</p><p>با دکمه + شروع کنید.</p></div>`;
   return `<div class="section-title">اهداف (${state.goals.length})</div>` + state.goals.map(g => {
     const pct = g.target > 0 ? Math.min(100, (g.current/g.target)*100) : 0;
     return `
       <div class="card goal-card" data-goal="${g.id}">
-        <div class="goal-header">
-          <div class="goal-title">${escapeHtml(g.title)}</div>
-          <div class="goal-values">${g.current} / ${g.target} ${escapeHtml(g.unit||'')}</div>
-        </div>
+        <div class="goal-header"><div class="goal-title">${escapeHtml(g.title)}</div><div class="goal-values">${g.current} / ${g.target} ${escapeHtml(g.unit||'')}</div></div>
         <div class="progress-bar"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
-      </div>
-    `;
+      </div>`;
   }).join('');
+}
+
+function renderStats() {
+  if (state.habits.length === 0) return `<div class="empty"><div class="empty-icon">📊</div><p>برای دیدن آمار، ابتدا عادت بسازید.</p></div>`;
+  
+  const total = state.habits.length;
+  let barsHtml = '';
+  // 7 روز گذشته
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = dateKey(d);
+    const doneCount = state.habits.filter(h => (h.history||[]).includes(key)).length;
+    const pct = total ? Math.round((doneCount/total)*100) : 0;
+    const h = Math.max(pct, 5); // حداقل 5 درصد ارتفاع برای دیده شدن
+    const [_, jm, jd] = toJalali(d.getFullYear(), d.getMonth()+1, d.getDate());
+    barsHtml += `
+      <div class="chart-bar-wrapper">
+        <div class="chart-bar" style="height: 100px;">
+          <div class="chart-bar-fill" style="height: ${h}%;"></div>
+        </div>
+        <div class="chart-label">${jd}</div>
+      </div>`;
+  }
+
+  return `
+    <div class="section-title">نمودار ۷ روز گذشته</div>
+    <div class="card" style="display:block;">
+      <div class="chart-container">${barsHtml}</div>
+    </div>
+    <div class="section-title" style="margin-top:24px;">خلاصه کلی</div>
+    <div class="card" style="display:block;text-align:center;">
+      <div style="font-size:30px;font-weight:bold;color:var(--primary);margin-bottom:8px;">${total}</div>
+      <div style="color:var(--text2)">کل عادت‌های شما</div>
+    </div>
+  `;
 }
 
 function renderSettings() {
@@ -325,12 +296,11 @@ function renderSettings() {
     <div class="setting-item" id="reset-btn" style="color:var(--danger)"><span>🗑 پاک کردن همه داده‌ها</span><span style="color:var(--text2)">›</span></div>
     <div class="section-title">درباره</div>
     <div class="card" style="display:block;font-size:14px;line-height:1.8;color:var(--text2)">
-      <strong style="color:var(--text)">نظم و پیشرفت (نسخه ۲)</strong><br>
-      اپ شخصی آفلاین با پشتیبانی از حالت تاریک.<br>
+      <strong style="color:var(--text)">نظم و پیشرفت (نسخه ۳)</strong><br>
+      دارای تقویم، نمودار و کاملاً آفلاین.<br>
       همه داده‌ها روی گوشی خودتان ذخیره می‌شوند.
     </div>
-    <input type="file" id="import-file" accept="application/json" style="display:none">
-  `;
+    <input type="file" id="import-file" accept="application/json" style="display:none">`;
 }
 
 function render() {
@@ -338,31 +308,24 @@ function render() {
   const main = document.getElementById('main');
   if (state.activeTab === 'today') main.innerHTML = renderToday();
   else if (state.activeTab === 'goals') main.innerHTML = renderGoals();
+  else if (state.activeTab === 'stats') main.innerHTML = renderStats();
   else main.innerHTML = renderSettings();
-  document.querySelectorAll('.tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === state.activeTab);
-  });
-  document.getElementById('fab').style.display = state.activeTab === 'settings' ? 'none' : 'flex';
+  
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === state.activeTab));
+  document.getElementById('fab').style.display = (state.activeTab === 'settings' || state.activeTab === 'stats') ? 'none' : 'flex';
   attachHandlers();
 }
 
 function attachHandlers() {
-  document.querySelectorAll('.tab').forEach(t => {
-    t.onclick = () => { state.activeTab = t.dataset.tab; render(); };
-  });
+  document.querySelectorAll('.tab').forEach(t => t.onclick = () => { state.activeTab = t.dataset.tab; render(); });
   document.getElementById('fab').onclick = () => {
     if (state.activeTab === 'today') openHabitModal();
     else if (state.activeTab === 'goals') openGoalModal();
   };
-  document.querySelectorAll('[data-check]').forEach(b => {
-    b.onclick = (e) => { e.stopPropagation(); toggleHabit(b.dataset.check); };
-  });
-  document.querySelectorAll('[data-habit]').forEach(c => {
-    c.onclick = (e) => { if (!e.target.closest('[data-check]')) openHabitModal(c.dataset.habit); };
-  });
-  document.querySelectorAll('[data-goal]').forEach(c => {
-    c.onclick = () => openGoalModal(c.dataset.goal);
-  });
+  document.querySelectorAll('[data-check]').forEach(b => b.onclick = (e) => { e.stopPropagation(); toggleHabit(b.dataset.check); });
+  document.querySelectorAll('[data-habit]').forEach(c => c.onclick = () => openHabitCalendar(c.dataset.habit));
+  document.querySelectorAll('[data-goal]').forEach(c => c.onclick = () => openGoalModal(c.dataset.goal));
+  
   const ex = document.getElementById('export-btn'); if (ex) ex.onclick = exportData;
   const im = document.getElementById('import-btn'); if (im) im.onclick = () => document.getElementById('import-file').click();
   const imf = document.getElementById('import-file'); if (imf) imf.onchange = importData;
@@ -370,69 +333,107 @@ function attachHandlers() {
 }
 
 function toggleHabit(id) {
-  const h = state.habits.find(x => x.id === id);
-  if (!h) return;
-  h.history = h.history || [];
-  const tk = todayKey();
-  const i = h.history.indexOf(tk);
+  const h = state.habits.find(x => x.id === id); if (!h) return;
+  h.history = h.history || []; const tk = todayKey(); const i = h.history.indexOf(tk);
   if (i >= 0) h.history.splice(i, 1); else h.history.push(tk);
   save(); render();
 }
 
 function showModal() {
-  const m = document.getElementById('modal');
-  m.style.display = 'flex';
+  const m = document.getElementById('modal'); m.style.display = 'flex';
   document.getElementById('modal-cancel').onclick = closeModal;
   m.onclick = (e) => { if (e.target === m) closeModal(); };
 }
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
+// مودال تقویم عادت
+let calCurrentYear, calCurrentMonth;
+function openHabitCalendar(id) {
+  const h = state.habits.find(x => x.id === id); if (!h) return;
+  const now = new Date(); const [jy, jm] = toJalali(now.getFullYear(), now.getMonth()+1, now.getDate());
+  calCurrentYear = jy; calCurrentMonth = jm;
+  document.getElementById('modal-title').textContent = `تاریخچه: ${h.name}`;
+  document.getElementById('modal-actions').style.display = 'none'; // دکمه ذخیره/لغو لازم نیست
+  renderCalendar(h);
+  showModal();
+}
+
+function renderCalendar(h) {
+  const body = document.getElementById('modal-body');
+  const history = h.history || [];
+  const daysInMonth = getJalaliMonthDays(calCurrentYear, calCurrentMonth);
+  
+  // پیدا کردن روز هفته اول ماه (با یک تقریب ساده برای شمسی)
+  // نکته: این یک تقریب است که برای نمایش بصری کافیست. روز ۱ ماه تعیین می‌شود.
+  const firstDay = new Date(calCurrentYear + 621, calCurrentMonth - 1, 1); // تقریب گرگوری
+  const startDay = firstDay.getDay(); // 0=یکشنبه
+
+  let html = `
+    <div class="cal-header">
+      <button class="btn-secondary" style="flex:0;padding:8px 16px;" onclick="changeMonth(${h.id}, -1)">ماه قبل</button>
+      <strong style="font-size:16px;">${J_MONTHS[calCurrentMonth-1]} ${calCurrentYear}</strong>
+      <button class="btn-secondary" style="flex:0;padding:8px 16px;" onclick="changeMonth(${h.id}, 1)">ماه بعد</button>
+    </div>
+    <div class="cal-grid">
+      ${WEEKDAYS_SHORT.map(d => `<div class="cal-day-name">${d}</div>`).join('')}
+  `;
+
+  // پر کردن روزهای خالی اول ماه
+  for (let i = 0; i < startDay; i++) {
+    html += `<div></div>`;
+  }
+
+  // روزهای ماه
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${calCurrentYear}-${String(calCurrentMonth).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const isDone = history.includes(dateStr);
+    const isToday = dateStr === todayKey();
+    html += `<div class="cal-day ${isDone?'done':''} ${isToday?'today':''}">${day}</div>`;
+  }
+
+  html += `</div>
+    <div class="modal-actions" style="margin-top:20px;">
+      <button class="btn-primary" onclick="closeModal()">بستن</button>
+    </div>`;
+  
+  body.innerHTML = html;
+}
+
+window.changeMonth = function(id, delta) {
+  calCurrentMonth += delta;
+  if (calCurrentMonth > 12) { calCurrentMonth = 1; calCurrentYear++; }
+  else if (calCurrentMonth < 1) { calCurrentMonth = 12; calCurrentYear--; }
+  const h = state.habits.find(x => x.id === id);
+  renderCalendar(h);
+};
+
 let editingHabitId = null;
 function openHabitModal(id) {
   editingHabitId = id || null;
   const h = id ? state.habits.find(x => x.id === id) : null;
-  const emoji = h ? h.emoji : '✅';
-  const name = h ? h.name : '';
+  const emoji = h ? h.emoji : '✅'; const name = h ? h.name : '';
   document.getElementById('modal-title').textContent = h ? 'ویرایش عادت' : 'عادت جدید';
+  document.getElementById('modal-actions').style.display = 'flex'; // برگرداندن دکمه‌ها
   document.getElementById('modal-body').innerHTML = `
-    <div class="field">
-      <label>نام عادت</label>
-      <input type="text" id="habit-name" value="${escapeHtml(name)}" placeholder="مثلاً: کتاب خواندن">
-    </div>
-    <div class="field">
-      <label>آیکون</label>
+    <div class="field"><label>نام عادت</label><input type="text" id="habit-name" value="${escapeHtml(name)}" placeholder="مثلاً: کتاب خواندن"></div>
+    <div class="field"><label>آیکون</label>
       <div class="emoji-picker">
-        ${['✅','📚','💪','🏃','💧','🧘','🌅','✍️','🎯','🍎','🌱','😴','📵','🙏','🎨'].map(e =>
-          `<div class="emoji-option ${e === emoji ? 'selected' : ''}" data-emoji="${e}">${e}</div>`
-        ).join('')}
+        ${['✅','📚','💪','🏃','💧','🧘','🌅','✍️','🎯','🍎','🌱','😴','📵','🙏','🎨'].map(e => `<div class="emoji-option ${e === emoji ? 'selected' : ''}" data-emoji="${e}">${e}</div>`).join('')}
       </div>
     </div>
-    ${h ? `<button class="btn-danger" id="delete-habit" style="width:100%;margin-top:8px">حذف عادت</button>` : ''}
-  `;
-  document.querySelectorAll('.emoji-option').forEach(el => {
-    el.onclick = () => {
-      document.querySelectorAll('.emoji-option').forEach(x => x.classList.remove('selected'));
-      el.classList.add('selected');
-    };
+    ${h ? `<button class="btn-danger" id="delete-habit" style="width:100%;margin-top:8px">حذف عادت</button>` : ''}`;
+  
+  document.querySelectorAll('.emoji-option').forEach(el => el.onclick = () => {
+    document.querySelectorAll('.emoji-option').forEach(x => x.classList.remove('selected')); el.classList.add('selected');
   });
   const delBtn = document.getElementById('delete-habit');
-  if (delBtn) delBtn.onclick = () => {
-    if (confirm('این عادت حذف شود؟')) {
-      state.habits = state.habits.filter(x => x.id !== id);
-      save(); closeModal(); render();
-    }
-  };
+  if (delBtn) delBtn.onclick = () => { if (confirm('این عادت حذف شود؟')) { state.habits = state.habits.filter(x => x.id !== id); save(); closeModal(); render(); } };
   document.getElementById('modal-save').onclick = () => {
     const nameVal = document.getElementById('habit-name').value.trim();
     if (!nameVal) { alert('نام عادت را وارد کنید'); return; }
-    const sel = document.querySelector('.emoji-option.selected');
-    const em = sel ? sel.dataset.emoji : '✅';
-    if (editingHabitId) {
-      const hh = state.habits.find(x => x.id === editingHabitId);
-      hh.name = nameVal; hh.emoji = em;
-    } else {
-      state.habits.push({ id: uid(), name: nameVal, emoji: em, createdAt: Date.now(), history: [] });
-    }
+    const sel = document.querySelector('.emoji-option.selected'); const em = sel ? sel.dataset.emoji : '✅';
+    if (editingHabitId) { const hh = state.habits.find(x => x.id === editingHabitId); hh.name = nameVal; hh.emoji = em; }
+    else { state.habits.push({ id: uid(), name: nameVal, emoji: em, createdAt: Date.now(), history: [] }); }
     save(); closeModal(); render();
   };
   showModal();
@@ -443,45 +444,21 @@ function openGoalModal(id) {
   editingGoalId = id || null;
   const g = id ? state.goals.find(x => x.id === id) : null;
   document.getElementById('modal-title').textContent = g ? 'ویرایش هدف' : 'هدف جدید';
+  document.getElementById('modal-actions').style.display = 'flex';
   document.getElementById('modal-body').innerHTML = `
-    <div class="field">
-      <label>عنوان هدف</label>
-      <input type="text" id="goal-title" value="${g ? escapeHtml(g.title) : ''}" placeholder="مثلاً: خواندن ۱۲ کتاب">
-    </div>
-    <div class="field">
-      <label>مقدار فعلی</label>
-      <input type="number" id="goal-current" value="${g ? g.current : 0}" inputmode="numeric">
-    </div>
-    <div class="field">
-      <label>مقدار هدف</label>
-      <input type="number" id="goal-target" value="${g ? g.target : 100}" inputmode="numeric">
-    </div>
-    <div class="field">
-      <label>واحد (اختیاری)</label>
-      <input type="text" id="goal-unit" value="${g ? escapeHtml(g.unit||'') : ''}" placeholder="کتاب، کیلو، تومان...">
-    </div>
-    ${g ? `<button class="btn-danger" id="delete-goal" style="width:100%;margin-top:8px">حذف هدف</button>` : ''}
-  `;
+    <div class="field"><label>عنوان هدف</label><input type="text" id="goal-title" value="${g ? escapeHtml(g.title) : ''}" placeholder="مثلاً: خواندن ۱۲ کتاب"></div>
+    <div class="field"><label>مقدار فعلی</label><input type="number" id="goal-current" value="${g ? g.current : 0}" inputmode="numeric"></div>
+    <div class="field"><label>مقدار هدف</label><input type="number" id="goal-target" value="${g ? g.target : 100}" inputmode="numeric"></div>
+    <div class="field"><label>واحد (اختیاری)</label><input type="text" id="goal-unit" value="${g ? escapeHtml(g.unit||'') : ''}" placeholder="کتاب، کیلو، تومان..."></div>
+    ${g ? `<button class="btn-danger" id="delete-goal" style="width:100%;margin-top:8px">حذف هدف</button>` : ''}`;
   const delBtn = document.getElementById('delete-goal');
-  if (delBtn) delBtn.onclick = () => {
-    if (confirm('این هدف حذف شود؟')) {
-      state.goals = state.goals.filter(x => x.id !== id);
-      save(); closeModal(); render();
-    }
-  };
+  if (delBtn) delBtn.onclick = () => { if (confirm('این هدف حذف شود؟')) { state.goals = state.goals.filter(x => x.id !== id); save(); closeModal(); render(); } };
   document.getElementById('modal-save').onclick = () => {
-    const title = document.getElementById('goal-title').value.trim();
-    const current = Number(document.getElementById('goal-current').value) || 0;
-    const target = Number(document.getElementById('goal-target').value) || 0;
-    const unit = document.getElementById('goal-unit').value.trim();
+    const title = document.getElementById('goal-title').value.trim(); const current = Number(document.getElementById('goal-current').value) || 0; const target = Number(document.getElementById('goal-target').value) || 0; const unit = document.getElementById('goal-unit').value.trim();
     if (!title) { alert('عنوان هدف را وارد کنید'); return; }
     if (target <= 0) { alert('مقدار هدف باید بیشتر از صفر باشد'); return; }
-    if (editingGoalId) {
-      const gg = state.goals.find(x => x.id === editingGoalId);
-      gg.title = title; gg.current = current; gg.target = target; gg.unit = unit;
-    } else {
-      state.goals.push({ id: uid(), title, current, target, unit, createdAt: Date.now() });
-    }
+    if (editingGoalId) { const gg = state.goals.find(x => x.id === editingGoalId); gg.title = title; gg.current = current; gg.target = target; gg.unit = unit; }
+    else { state.goals.push({ id: uid(), title, current, target, unit, createdAt: Date.now() }); }
     save(); closeModal(); render();
   };
   showModal();
@@ -489,39 +466,32 @@ function openGoalModal(id) {
 
 function exportData() {
   const blob = new Blob([JSON.stringify({ habits: state.habits, goals: state.goals }, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `nazm-backup-${todayKey()}.json`;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  const url = URL.createObjectURL(blob); const a = document.createElement('a');
+  a.href = url; a.download = `nazm-backup-${todayKey()}.json`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 function importData(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = (ev) => {
     try {
       const d = JSON.parse(ev.target.result);
       if (!Array.isArray(d.habits) || !Array.isArray(d.goals)) throw new Error('invalid');
       if (!confirm('داده‌های فعلی با فایل جایگزین شوند؟')) return;
-      state.habits = d.habits; state.goals = d.goals;
-      save(); render(); alert('بازیابی موفق بود ✅');
+      state.habits = d.habits; state.goals = d.goals; save(); render(); alert('بازیابی موفق بود ✅');
     } catch(err) { alert('فایل معتبر نیست'); }
   };
-  reader.readAsText(file);
-  e.target.value = '';
+  reader.readAsText(file); e.target.value = '';
 }
 function resetData() {
   if (!confirm('همه داده‌ها پاک شوند؟ این کار برگشت‌پذیر نیست.')) return;
   if (!confirm('مطمئنید؟ آخرین تأیید')) return;
-  state.habits = []; state.goals = [];
-  save(); render();
+  state.habits = []; state.goals = []; save(); render();
 }
 
 load();
 render();
-  if ('serviceWorker' in navigator) {
+
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(err => console.log('SW fail', err));
   });
