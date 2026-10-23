@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="نظم">
-<meta name="theme-color" content="#6366F1">
+<meta name="theme-color" content="#EF4444">
 <title>نظم و پیشرفت</title>
 <style>
 :root {
@@ -14,11 +14,28 @@
   --card: #FFFFFF;
   --text: #1C1C1E;
   --text2: #8E8E93;
-  --primary: #6366F1;
+  --primary: #EF4444; /* قرمز */
+  --primary-grad: linear-gradient(135deg, #EF4444, #F43F5E);
   --success: #10B981;
   --danger: #EF4444;
   --border: #E5E7EB;
+  --input-bg: #FAFAFB;
+  --tab-bg: rgba(255,255,255,0.96);
 }
+
+/* حالت تاریک */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #000000;
+    --card: #1C1C1E;
+    --text: #FFFFFF;
+    --text2: #8E8E93;
+    --border: #38383A;
+    --input-bg: #2C2C2E;
+    --tab-bg: rgba(28,28,30,0.96);
+  }
+}
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; padding: 0; }
 body {
@@ -29,9 +46,10 @@ body {
   padding-bottom: 100px;
   direction: rtl;
   font-size: 15px;
+  transition: background 0.3s, color 0.3s;
 }
 .app-header {
-  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+  background: var(--primary-grad);
   color: white;
   padding: calc(env(safe-area-inset-top) + 12px) 20px 20px;
   border-radius: 0 0 24px 24px;
@@ -53,6 +71,7 @@ main { padding: 16px; }
   background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 10px;
   display: flex; align-items: center; gap: 12px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: background 0.3s;
 }
 .card:active { transform: scale(0.99); }
 .habit-emoji { font-size: 26px; }
@@ -61,7 +80,7 @@ main { padding: 16px; }
 .habit-streak { font-size: 12px; color: var(--text2); margin-top: 3px; }
 .check-btn {
   width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--border);
-  background: white; font-size: 17px; display: flex; align-items: center; justify-content: center;
+  background: var(--card); color: var(--text); font-size: 17px; display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: all 0.15s; flex-shrink: 0;
 }
 .check-btn.done { background: var(--success); border-color: var(--success); color: white; }
@@ -69,18 +88,19 @@ main { padding: 16px; }
 .goal-header { display: flex; justify-content: space-between; align-items: center; }
 .goal-title { font-weight: 600; }
 .goal-values { font-size: 13px; color: var(--text2); }
-.progress-bar { background: #F1F1F4; height: 8px; border-radius: 4px; overflow: hidden; }
-.progress-bar-fill { height: 100%; background: linear-gradient(90deg, #6366F1, #8B5CF6); border-radius: 4px; transition: width 0.4s; }
+.progress-bar { background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--primary-grad); border-radius: 4px; transition: width 0.4s; }
 .empty { text-align: center; padding: 50px 20px; color: var(--text2); }
 .empty-icon { font-size: 52px; margin-bottom: 12px; opacity: 0.7; }
 .empty p { margin: 6px 0; }
 .tabbar {
   position: fixed; bottom: 0; left: 0; right: 0;
-  background: rgba(255,255,255,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: var(--tab-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   display: flex; justify-content: space-around;
   padding: 8px 0 calc(env(safe-area-inset-bottom) + 8px);
   z-index: 100;
+  transition: background 0.3s;
 }
 .tab {
   background: none; border: none; padding: 6px 16px; font-size: 11px;
@@ -93,22 +113,24 @@ main { padding: 16px; }
   position: fixed; bottom: calc(env(safe-area-inset-bottom) + 90px); left: 20px;
   width: 56px; height: 56px; border-radius: 50%;
   background: var(--primary); color: white; border: none;
-  font-size: 30px; box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+  font-size: 30px; box-shadow: 0 4px 16px rgba(239,68,68,0.4);
   cursor: pointer; z-index: 99;
   display: flex; align-items: center; justify-content: center;
   font-family: inherit; line-height: 1;
 }
 .modal {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
   display: flex; align-items: flex-end; justify-content: center;
   z-index: 200; animation: fadeIn 0.2s;
 }
 @keyframes fadeIn { from { opacity: 0; } }
 .modal-content {
-  background: white; border-radius: 24px 24px 0 0;
+  background: var(--card); color: var(--text);
+  border-radius: 24px 24px 0 0;
   padding: 24px 20px calc(env(safe-area-inset-bottom) + 20px);
   width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto;
   animation: slideUp 0.25s;
+  transition: background 0.3s;
 }
 @keyframes slideUp { from { transform: translateY(100%); } }
 .modal-content h2 { margin: 0 0 16px; font-size: 18px; }
@@ -116,7 +138,7 @@ main { padding: 16px; }
 .field label { display: block; font-size: 13px; color: var(--text2); margin-bottom: 6px; font-weight: 600; }
 .field input {
   width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px;
-  font-size: 15px; font-family: inherit; background: #FAFAFB;
+  font-size: 15px; font-family: inherit; background: var(--input-bg); color: var(--text);
 }
 .field input:focus { outline: 2px solid var(--primary); border-color: transparent; }
 .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
@@ -125,20 +147,20 @@ main { padding: 16px; }
   font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer;
 }
 .btn-primary { background: var(--primary); color: white; }
-.btn-secondary { background: #F1F1F4; color: var(--text); }
-.btn-danger { background: #FEF2F2; color: var(--danger); }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-danger { background: rgba(239,68,68,0.1); color: var(--danger); }
 .setting-item {
   background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 8px;
   display: flex; justify-content: space-between; align-items: center; cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04); transition: background 0.3s;
 }
-.setting-item:active { background: #F8F8FA; }
+.setting-item:active { background: var(--border); }
 .emoji-picker { display: flex; gap: 6px; flex-wrap: wrap; }
 .emoji-option {
-  font-size: 22px; padding: 8px; border-radius: 10px; background: #F5F5F7;
+  font-size: 22px; padding: 8px; border-radius: 10px; background: var(--input-bg);
   border: 2px solid transparent; cursor: pointer; user-select: none;
 }
-.emoji-option.selected { border-color: var(--primary); background: #EEF2FF; }
+.emoji-option.selected { border-color: var(--primary); background: rgba(239,68,68,0.1); }
 </style>
 </head>
 <body>
@@ -181,7 +203,6 @@ main { padding: 16px; }
 </div>
 
 <script>
-// ============ ذخیره‌سازی ============
 const STORAGE_KEY = 'nazm_v1';
 let state = { habits: [], goals: [], activeTab: 'today' };
 
@@ -203,7 +224,6 @@ function escapeHtml(s) {
   return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 
-// ============ تقویم شمسی ============
 const J_MONTHS = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
 const WEEKDAYS = ['یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنجشنبه','جمعه','شنبه'];
 
@@ -247,7 +267,6 @@ function getStreak(habit) {
   return streak;
 }
 
-// ============ رندر ============
 function renderHeader() {
   document.getElementById('date-label').textContent = todayLabel();
   const total = state.habits.length;
@@ -306,9 +325,9 @@ function renderSettings() {
     <div class="setting-item" id="reset-btn" style="color:var(--danger)"><span>🗑 پاک کردن همه داده‌ها</span><span style="color:var(--text2)">›</span></div>
     <div class="section-title">درباره</div>
     <div class="card" style="display:block;font-size:14px;line-height:1.8;color:var(--text2)">
-      <strong style="color:var(--text)">نظم و پیشرفت</strong><br>
-      نسخه ۱.۰ — اپ شخصی آفلاین<br>
-      همه داده‌ها روی گوشی خودتان ذخیره می‌شوند. هیچ اطلاعاتی به هیچ سروری ارسال نمی‌شود.
+      <strong style="color:var(--text)">نظم و پیشرفت (نسخه ۲)</strong><br>
+      اپ شخصی آفلاین با پشتیبانی از حالت تاریک.<br>
+      همه داده‌ها روی گوشی خودتان ذخیره می‌شوند.
     </div>
     <input type="file" id="import-file" accept="application/json" style="display:none">
   `;
@@ -327,7 +346,6 @@ function render() {
   attachHandlers();
 }
 
-// ============ تعاملات ============
 function attachHandlers() {
   document.querySelectorAll('.tab').forEach(t => {
     t.onclick = () => { state.activeTab = t.dataset.tab; render(); };
@@ -361,7 +379,6 @@ function toggleHabit(id) {
   save(); render();
 }
 
-// ============ مودال‌ها ============
 function showModal() {
   const m = document.getElementById('modal');
   m.style.display = 'flex';
@@ -470,7 +487,6 @@ function openGoalModal(id) {
   showModal();
 }
 
-// ============ پشتیبان ============
 function exportData() {
   const blob = new Blob([JSON.stringify({ habits: state.habits, goals: state.goals }, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -503,7 +519,6 @@ function resetData() {
   save(); render();
 }
 
-// ============ شروع ============
 load();
 render();
 </script>
