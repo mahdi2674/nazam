@@ -60,7 +60,6 @@ main { padding: 16px; }
 }
 .check-btn.done { background: var(--success); border-color: var(--success); color: white; }
 
-/* استایل جدید کارت هدف */
 .goal-card { flex-direction: column; align-items: stretch; gap: 8px; }
 .goal-header { display: flex; justify-content: space-between; align-items: center; }
 .goal-title { font-weight: 600; font-size: 16px; }
@@ -68,7 +67,12 @@ main { padding: 16px; }
 .progress-bar { background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
 .progress-bar-fill { height: 100%; background: var(--primary-grad); border-radius: 4px; transition: width 0.4s; }
 .goal-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 6px; border-top: 1px solid var(--border); padding-top: 10px; }
-.quick-btn { width: 34px; height: 34px; border-radius: 10px; border: none; font-size: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; }
+
+.quick-btn { 
+  min-width: 34px; height: 34px; padding: 0 10px; border-radius: 10px; border: none; 
+  font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; 
+  cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
 .quick-plus { background: var(--primary); color: white; }
 .quick-minus { background: var(--input-bg); color: var(--text); }
 .quick-txt { font-size: 11px; color: var(--text2); margin-left: auto; }
@@ -254,6 +258,7 @@ function renderGoals() {
   if (state.goals.length === 0) return `<div class="empty"><div class="empty-icon">🎯</div><p>هنوز هدفی تعریف نکرده‌اید.</p><p>با دکمه + شروع کنید.</p></div>`;
   return `<div class="section-title">اهداف (${state.goals.length})</div>` + state.goals.map(g => {
     const pct = g.target > 0 ? Math.min(100, (g.current/g.target)*100) : 0;
+    const step = g.step || 1;
     return `
       <div class="card goal-card" data-goal="${g.id}">
         <div class="goal-header">
@@ -264,8 +269,8 @@ function renderGoals() {
         
         <div class="goal-actions">
           <span class="quick-txt">ثبت سریع:</span>
-          <button class="quick-btn quick-minus" data-minus="${g.id}">−</button>
-          <button class="quick-btn quick-plus" data-plus="${g.id}">+</button>
+          <button class="quick-btn quick-minus" data-minus="${g.id}">−${step}</button>
+          <button class="quick-btn quick-plus" data-plus="${g.id}">+${step}</button>
         </div>
       </div>`;
   }).join('');
@@ -360,8 +365,8 @@ function renderSettings() {
     <div class="setting-item" id="reset-btn" style="color:var(--danger)"><span>🗑 پاک کردن همه داده‌ها</span><span style="color:var(--text2)">›</span></div>
     <div class="section-title">درباره</div>
     <div class="card" style="display:block;font-size:14px;line-height:1.8;color:var(--text2)">
-      <strong style="color:var(--text)">نظم و پیشرفت (نسخه ۵)</strong><br>
-      دارای ثبت سریع اهداف.<br>
+      <strong style="color:var(--text)">نظم و پیشرفت (نسخه ۶)</strong><br>
+      دارای ثبت سریع اهداف با گام دلخواه.<br>
       همه داده‌ها روی گوشی خودتان ذخیره می‌شوند.
     </div>
     <input type="file" id="import-file" accept="application/json" style="display:none">`;
@@ -394,10 +399,8 @@ function attachHandlers() {
   document.querySelectorAll('[data-check]').forEach(b => b.onclick = (e) => { e.stopPropagation(); toggleHabit(b.dataset.check); });
   document.querySelectorAll('[data-habit]').forEach(c => c.onclick = () => openHabitCalendar(c.dataset.habit));
   
-  // هندل کردن هدف‌ها
   document.querySelectorAll('[data-goal]').forEach(c => c.onclick = () => openGoalModal(c.dataset.goal));
   
-  // هندل کردن دکمه‌های سریع + و -
   document.querySelectorAll('[data-plus]').forEach(b => {
     b.onclick = (e) => { 
       e.stopPropagation(); 
@@ -417,10 +420,11 @@ function attachHandlers() {
   const rs = document.getElementById('reset-btn'); if (rs) rs.onclick = resetData;
 }
 
-function updateGoalProgress(id, amount) {
+function updateGoalProgress(id, direction) {
     const g = state.goals.find(x => x.id === id);
     if (!g) return;
-    g.current = Math.max(0, g.current + amount); // جلوگیری از منفی شدن
+    const step = g.step || 1;
+    g.current = Math.max(0, g.current + (step * direction)); 
     save(); 
     render();
 }
@@ -533,16 +537,27 @@ function openGoalModal(id) {
     <div class="field"><label>عنوان هدف</label><input type="text" id="goal-title" value="${g ? escapeHtml(g.title) : ''}" placeholder="مثلاً: خواندن ۱۲ کتاب"></div>
     <div class="field"><label>مقدار فعلی</label><input type="number" id="goal-current" value="${g ? g.current : 0}" inputmode="numeric"></div>
     <div class="field"><label>مقدار هدف</label><input type="number" id="goal-target" value="${g ? g.target : 100}" inputmode="numeric"></div>
+    <div class="field"><label>گام (هر بار کلیک چقدر اضافه/کم شود؟)</label><input type="number" id="goal-step" value="${g && g.step ? g.step : 1}" min="1" inputmode="numeric"></div>
     <div class="field"><label>واحد (اختیاری)</label><input type="text" id="goal-unit" value="${g ? escapeHtml(g.unit||'') : ''}" placeholder="کتاب، کیلو، تومان..."></div>
     ${g ? `<button class="btn-danger" id="delete-goal" style="width:100%;margin-top:8px">حذف هدف</button>` : ''}`;
   const delBtn = document.getElementById('delete-goal');
   if (delBtn) delBtn.onclick = () => { if (confirm('این هدف حذف شود؟')) { state.goals = state.goals.filter(x => x.id !== id); save(); closeModal(); render(); } };
   document.getElementById('modal-save').onclick = () => {
-    const title = document.getElementById('goal-title').value.trim(); const current = Number(document.getElementById('goal-current').value) || 0; const target = Number(document.getElementById('goal-target').value) || 0; const unit = document.getElementById('goal-unit').value.trim();
+    const title = document.getElementById('goal-title').value.trim(); 
+    const current = Number(document.getElementById('goal-current').value) || 0; 
+    const target = Number(document.getElementById('goal-target').value) || 0; 
+    const step = Number(document.getElementById('goal-step').value) || 1;
+    const unit = document.getElementById('goal-unit').value.trim();
+    
     if (!title) { alert('عنوان هدف را وارد کنید'); return; }
     if (target <= 0) { alert('مقدار هدف باید بیشتر از صفر باشد'); return; }
-    if (editingGoalId) { const gg = state.goals.find(x => x.id === editingGoalId); gg.title = title; gg.current = current; gg.target = target; gg.unit = unit; }
-    else { state.goals.push({ id: uid(), title, current, target, unit, createdAt: Date.now() }); }
+    
+    if (editingGoalId) { 
+      const gg = state.goals.find(x => x.id === editingGoalId); 
+      gg.title = title; gg.current = current; gg.target = target; gg.step = step; gg.unit = unit; 
+    } else { 
+      state.goals.push({ id: uid(), title, current, target, step, unit, createdAt: Date.now() }); 
+    }
     save(); closeModal(); render();
   };
   showModal();
